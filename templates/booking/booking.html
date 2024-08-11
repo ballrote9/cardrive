@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>CarDrive - Бронирование Машин</title>
+{% endblock title %}
+
+{% block style %}
+    <link rel="stylesheet" href="{% static "booking/style.css" %}">
+    <link rel="stylesheet" href="{% static "base_styles.css" %}">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+
+        .booking-section, .order-summary {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-right: 10px;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .button-secondary {
+            background-color: #6c757d;
+        }
+
+        .button-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        form label {
+            margin: 10px 0 5px;
+        }
+
+        form input, form select, form button {
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-start;
+        }
+    </style>
+{% endblock style %}
+
+{% block h1_title %}
+    <h1>Бронирование</h1>
+{% endblock h1_title %}
+
+{% block content %}
+<div class="container">
+    <div class="booking-section">
+        <h3>Информация о пользователе</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_first_name">Имя</label>
+                <input type="text" class="form-control" placeholder="Введите ваше имя" id="id_first_name" name="first_name" value="{{ user_form.first_name.value }}">
+                {% if user_form.first_name.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_last_name">Фамилия</label>
+                <input type="text" class="form-control" placeholder="Введите вашу фамилию" id="id_last_name" name="last_name" value="{{ user_form.last_name.value }}">
+                {% if user_form.last_name.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_middle_name">Отчество</label>
+                <input type="text" class="form-control" placeholder="Введите ваше отчество" id="id_middle_name" name="middle_name" value="{% if user_form.middle_name.value %}{{ user_form.middle_name.value }}{% endif %}">
+                {% if user_form.middle_name.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.middle_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_passport_num">Серия и номер паспорта</label>
+                <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_passport_num" name="passport_num" value="{% if user_form.passport_num.value %}{{ user_form.passport_num.value }}{% endif %}">
+                {% if user_form.passport_num.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.passport_num.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_drive_license_num">Серия и номер водительского удостоверения</label>
+                <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_drive_license_num" name="drive_license_num" value="{% if user_form.drive_license_num.value %}{{ user_form.drive_license_num.value }}{% endif %}">
+                {% if user_form.drive_license_num.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.drive_license_num.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_username">Имя пользователя</label>
+                <input type="text" class="form-control" placeholder="Введите имя пользователя" id="id_username" name="username" value="{{ user_form.username.value }}">
+                {% if user_form.username.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.username.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <input type="email" class="form-control" placeholder="Введите ваш Email" id="id_email" name="email" value="{{ user_form.email.value }}">
+                {% if user_form.email.errors %}
+                <div class="alert alert-danger mt-2">{{ user_form.email.errors }}</div>
+                {% endif %}
+            </div>
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary">Сохранить информацию</button>
+                <a href="{% url 'cars:index' %}" class="btn button button-secondary">Отменить</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="booking-section">
+        <h3>Информация о бронировании</h3>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group mb-3">
+                <p><strong>Автомобиль:</strong> <a href="{% url 'cars:model_car' car.slug%}">{{ car.slug }}</a></p>
+                {% if booking_form.car.errors %}
+                <div class="alert alert-danger mt-2">{{ booking_form.car.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_busy_start">Дата начала бронирования</label>
+                <input type="text" class="form-control" placeholder="Выберите дату начала" id="id_busy_start" name="busy_start" value="{% if booking_form.busy_start.value %}{{ booking_form.busy_start.value }}{% endif %}">
+                {% if booking_form.busy_start.errors %}
+                <div class="alert alert-danger mt-2">{{ booking_form.busy_start.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="id_busy_end">Дата окончания бронирования</label>
+                <input type="text" class="form-control" placeholder="Выберите дату окончания" id="id_busy_end" name="busy_end" value="{% if booking_form.busy_end.value %}{{ booking_form.busy_end.value }}{% endif %}">
+                {% if booking_form.busy_end.errors %}
+                <div class="alert alert-danger mt-2">{{ booking_form.busy_end.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="button-container">
+                <button type="submit" class="btn btn-primary">Забронировать</button>
+                <button type="submit" class="btn btn-primary">Отменить</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="order-summary">
+        <h3>Информация о заказе</h3>
+        <p><strong>Автомобиль:</strong> {{ car.name }}</p>
+        <p><strong>Количество дней аренды:</strong> <span id="rental-days">0</span> дней</p>
+        <p><strong>Стоимость аренды:</strong> <span id="rental-cost">0</span> руб.</p>
+        <p><strong>Адрес получения:</strong> {{ car.pickup_address }}</p>
+    </div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var bookedDates = {{ booked_dates_json|safe }};
+            var rentalCostPerDay = {{ car.rental_cost_per_day }};
+
+            function disableBookedDates(date) {
+                var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+                return [bookedDates.indexOf(string) === -1];
+            }
+
+            $("#id_busy_start, #id_busy_end").datepicker({
+                beforeShowDay: disableBookedDates,
+                dateFormat: 'yy-mm-dd',
+                onSelect: function() {
+                    var startDate = $("#id_busy_start").datepicker("getDate");
+                    var endDate = $("#id_busy_end").datepicker("getDate");
+                    if (startDate && endDate) {
+                        var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
+                        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                        $("#rental-days").text(diffDays);
+                        $("#rental-cost").text(diffDays * rentalCostPerDay);
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock scripts %}

@@ -1,0 +1,72 @@
+[
+    {
+        "model": "cars.carcases",
+        "pk": 1,
+        "fields": {
+            "carcase_name": "Седан"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 2,
+        "fields": {
+            "carcase_name": "Хэтчбек"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 3,
+        "fields": {
+            "carcase_name": "Универсал"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 4,
+        "fields": {
+            "carcase_name": "Купе"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 5,
+        "fields": {
+            "carcase_name": "Кабриолет"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 6,
+        "fields": {
+            "carcase_name": "Родстер"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 7,
+        "fields": {
+            "carcase_name": "Кроссовер"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 8,
+        "fields": {
+            "carcase_name": "Внедорожник"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 9,
+        "fields": {
+            "carcase_name": "Минивэн"
+        }
+    },
+    {
+        "model": "cars.carcases",
+        "pk": 10,
+        "fields": {
+            "carcase_name": "Пикап"
+        }
+    }
+]

@@ -1,0 +1,85 @@
+/* Основные стили для всего сайта */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 0;
+    text-align: center;
+    position: fixed; /* Фиксированное позиционирование */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Обеспечивает, что шапка будет сверху */
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+    position: relative; /* Чтобы выпадающее меню правильно позиционировалось */
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+header nav ul li .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 100%; /* Помещаем меню под кнопкой */
+    left: 0;
+    z-index: 1001; /* Обеспечивает, что меню будет сверху */
+}
+
+header nav ul li .dropdown-content li {
+    display: block;
+    margin: 0;
+}
+
+header nav ul li .dropdown-content li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+header nav ul li .dropdown-content li a:hover {
+    background-color: #555;
+}
+
+header nav ul li .show {
+    display: block;
+}
+
+main {
+    padding: 20px;
+    margin-top: 80px; /* Добавьте отступ, чтобы избежать перекрытия шапкой */
+    margin-bottom: 40px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Обеспечивает, что футер будет сверху */
+}

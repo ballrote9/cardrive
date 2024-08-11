@@ -1,0 +1,50 @@
+[
+    {
+        "model": "cars.carmodels",
+        "pk": 2,
+        "fields": {
+            "designer": 1,
+            "model_name": "A4"
+        }
+    },
+    {
+        "model": "cars.carmodels",
+        "pk": 3,
+        "fields": {
+            "designer": 4,
+            "model_name": "X5"
+        }
+    },
+    {
+        "model": "cars.carmodels",
+        "pk": 4,
+        "fields": {
+            "designer": 5,
+            "model_name": "C-class"
+        }
+    },
+    {
+        "model": "cars.carmodels",
+        "pk": 5,
+        "fields": {
+            "designer": 7,
+            "model_name": "Stinger"
+        }
+    },
+    {
+        "model": "cars.carmodels",
+        "pk": 6,
+        "fields": {
+            "designer": 8,
+            "model_name": "F-type"
+        }
+    },
+    {
+        "model": "cars.carmodels",
+        "pk": 7,
+        "fields": {
+            "designer": 6,
+            "model_name": "Accent"
+        }
+    }
+]

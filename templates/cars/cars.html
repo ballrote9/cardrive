@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>CarDrive - {{car.designer}} {{car.model}}</title>
+{% endblock title %}
+
+{% block style %}    
+    <link rel="stylesheet" href="{% static "cars/car_models_style.css" %}">
+    <link rel="stylesheet" href="{% static "base_styles.css" %}">
+{% endblock style %}
+
+{% block h1_title %}
+    <h1>{{car.designer}} {{car.model}}</h1>
+{% endblock h1_title %}
+    
+{% block content %}
+<section class="car-detail">
+    <div class="car-image">
+        {% if car.image %}
+            <img src="{{ car.image.url }}" alt="{{car.model}}">
+        {% else %}
+            <img src="{% static 'images/not-found.jpg' %}" alt="not found">
+        {% endif %}
+    </div>
+    <div class="car-info">
+        <div class="car-specs">
+            <p>Цена: {{ car.price }}</p>
+            <p>Лошадиные силы: {{ car.power }}</p>
+            <p>Кузов: {{ car.carcase }}</p>
+            <a href="{% url 'booking:booking_pg' car.slug %}" class="button">Забронировать</a>
+        </div>
+        <div class="car-description">
+            <h2>Описание</h2>
+            <p>{{ car.description }}</p>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

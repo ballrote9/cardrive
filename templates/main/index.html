@@ -1,0 +1,26 @@
+    {% extends "base.html" %}
+    {% load static %}
+
+    {% block style %}    
+        <link rel="stylesheet" href="{% static "styles.css" %}">
+        <link rel="stylesheet" href="{% static "base_styles.css" %}">
+    {% endblock style %}
+
+    {% block title %}
+        <title>CarDrive - Аренда Машин</title>
+    {% endblock title %}
+
+    {% block h1_title %}
+        <h1>Добро пожаловать в CarDrive</h1>
+    {% endblock h1_title %}
+        
+  
+    {% block content %}
+        <h2>Арендуйте лучшие машины по отличным ценам!</h2>
+        <p>Добро пожаловать в CarDrive, ваш надежный партнер в аренде автомобилей. Мы предлагаем широкий выбор машин для любого случая и бюджета.</p>
+    {% endblock content %}
+    
+    {% block scripts %}
+        <script src={% static "scripts.js" %}></script>
+    {% endblock scripts%}
+        

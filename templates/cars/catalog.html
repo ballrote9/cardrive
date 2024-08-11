@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cars_tags %}
+
+{% block title %}
+    <title>CarDrive - Каталог Машин</title>
+{% endblock title %}
+
+{% block style %}
+<link rel="stylesheet" href="{% static "base_styles.css" %}">
+<link rel="stylesheet" href="{% static "cars/catalog_styles.css" %}">
+{% endblock style %}
+
+
+{% block h1_title %}
+    <h1>Каталог Машин</h1>
+{% endblock h1_title %}
+
+{% block filter-btn %}
+    <li><button id="filter-btn">Фильтр</button></li>
+{% endblock filter-btn %}
+
+{% block filter-panel %}
+<div id="filter-panel" class="filter-panel">
+    <form id="filter-form" method="get" action="{% url 'cars:index' %}">
+        <span class="close-filter-panel">&times;</span>
+        <div class="filter-container">
+            <div class="filter-group">
+                {% tag_min_price as min_price %}
+                <label for="price-min">Минимальная цена:</label>
+                <input type="number" id="price-min" name="price_min" min="0" value="{{min_price}}">
+                <input type="range" id="price-range-min" min="0" max="150" step="1" value="{{min_price}}">
+            </div>
+            <div class="filter-group">
+                {% tag_max_price as max_price %}
+                <label for="price-max">Максимальная цена:</label>
+                <input type="number" id="price-max" name="price_max" min="0" value="{{max_price}}">
+                <input type="range" id="price-range-max" min="0" max="150" step="1" value="{{max_price}}">
+            </div>
+        </div>
+        <label for="availability">Свободность(сегодня):</label>
+        <select name="availability" id="availability">
+            <option value="">Любая</option>
+            <option value="available">Свободна</option>
+            <option value="unavailable">Занята</option>
+        </select>
+        <label for="designer">Производитель:</label>
+        <select name="designer" id="designer">
+            <option value="">Любой</option>
+            {% tag_designer as designers %}
+            {% for el in designers %}
+            <option value="{{ el.id }}">{{ el.designer_name }}</option>
+            {% endfor %}
+        </select>
+        <label for="power">Лошадиные силы:</label>
+        <select  id="power" name="power">
+            <option value ="">Все</option>
+            <option value ="150">До 150</option>
+            <option value ="249">До 250</option>
+            <option value ="250">Более 250</option>
+        </select>
+        <label for="carcase">Кузов:</label>
+        <select name="carcase" id="carcase">
+            <option value="">Любой</option>
+            {% tag_carcase as carcases %}
+            {% for el in carcases %}
+                <option value="{{ el.id }}">{{ el.carcase_name }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Применить фильтры</button>
+    </form>
+</div>
+{% endblock filter-panel %}
+
+{% block content %}
+<section class="car-catalog">
+    {% for el in cars %}
+    <div class="car-item">
+        <a href="{% url 'cars:model_car' el.slug%}">
+            {% if el.image %}
+                <img src="{{el.image.url}}" alt="{{ el.model }}">
+            {% else %}
+            <img src= "{% static "images/not-found.jpg"  %}" alt="{{el.name}}">
+            {% endif %}
+            <div class="car-info">
+                <h3>{{ el.designer }} {{ el.model }}</h3>
+                <p>{{ el.price }}</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</section>
+{% endblock content %}
+
+    {% block scripts %}
+        <script src={% static "scripts.js" %}></script>
+        <script src="{% static 'cars/catalog_script.js' %}"></script>
+    {% endblock scripts %}
+

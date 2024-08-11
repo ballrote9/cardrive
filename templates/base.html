@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}
+    {% endblock title %}
+    {% block style %}
+    {% endblock style %}
+</head>
+<body>
+    <header>
+        {% block h1_title %}
+        {% endblock h1_title %}
+        <nav>
+            <ul>
+                <li><a href="{% url "main:index" %}">Главная</a></li>
+                <li><a href="{% url "cars:index" %}">Каталог</a></li>
+                {% if not user.is_authenticated %}
+                <li><a href="{% url "user:login" %}">Вход в личный кабинет</a></li>
+                {% else %}
+                <li class="dropdown">
+                    <a href="#!" class="dropbtn">Личный кабинет</a>
+                    <ul class="dropdown-content">
+                        <li><a href="{% url "user:profile" %}">Личный кабинет</a></li>
+                        <li><a href="{% url "user:logout" %}">Выход</a></li>
+                        {% if user.is_admin or user.is_staff %}
+                        <li><a href="/admin">Админ панель</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
+                {% endif %}
+                {% block filter-btn %}
+                {% endblock filter-btn %}
+            </ul>
+        </nav>
+    </header>
+    {% block filter-panel %}
+    {% endblock filter-panel %}
+    <main id = "main-content">
+    {% block content %}
+    {% endblock content %}
+    </main>
+    <footer>
+        <p>&copy; 2024 CarDrive. Все права защищены.</p>
+    </footer>
+    {% block scripts %}
+    {% endblock scripts %}
+    
+</body>
+</html>

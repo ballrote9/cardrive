@@ -1,0 +1,141 @@
+{% extends "auth_base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>Профиль</title>
+{% endblock %}
+
+{% block content %}
+<div class="profile-wrapper container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="profile-card card shadow-sm p-4 mb-4 bg-white rounded">
+                <div class="profile-header d-flex align-items-center mb-3">
+                    <img src={% if user.image %}"{{ user.image.url }}"{% else %}"{% static "images/not-found.jpg" %}"{% endif %} alt="{{ user.username }}" class="profile-avatar rounded-circle me-3">
+                    <div>
+                        <h2 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h2>
+                        <a href="{% url 'main:index' %}" class="back-button text-decoration-none">
+                            &larr; Назад
+                        </a>
+                    </div>
+                </div>
+                <div class="profile-info" id="profile_display">
+                    <p><strong>Фамилия:</strong> {{ user.last_name }}{% if form.last_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Имя:</strong> {{ user.first_name }}{% if form.first_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Отчество*:</strong>{% if user.middle_name %}{{ user.middle_name }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.middle_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Серия и номер паспорта:</strong> {% if user.passport_num %}{{ user.passport_num }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.passport_num.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Серия и номер водительского удостоверения:</strong> {% if user.drive_license_num %}{{ user.drive_license_num }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.drive_license_num.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Имя пользователя:</strong> {{ user.username }}{% if form.username.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                    <p><strong>Email:</strong> {{ user.email }}{% if form.email.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                </div>
+                <form method="POST" enctype="multipart/form-data" id="edit_form" style="display: none;">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="id_first_name">Имя</label>
+                        <input type="text" class="form-control" placeholder="Введите ваше имя" id="id_first_name" name="first_name" 
+                        value="{{ form.first_name.value }}">
+                        {% if form.first_name.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.first_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_last_name">Фамилия</label>
+                        <input type="text" class="form-control" placeholder="Введите вашу фамилию" id="id_last_name" name="last_name" 
+                        value="{{ form.last_name.value }}">
+                        {% if form.last_name.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.last_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_middle_name">Отчество</label>
+                        <input type="text" class="form-control" placeholder="Введите ваше отчество" id="id_middle_name" name="middle_name" 
+                        value="{% if  form.middle_name.value  %}"{{ form.middle_name.value }}"{% endif %}">
+                        {% if form.middle_name.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.middle_name.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_passport_num">Серия и номер паспорта</label>
+                        <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_passport_num" name="passport_num" 
+                        value="{% if  form.passport_num.value  %}{{ form.passport_num.value }}{% endif %}">
+                        {% if form.passport_num.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.passport_num.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_drive_license_num">Серия и номер водительского удостоверения</label>
+                        <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_drive_license_num" name="drive_license_num" 
+                        value="{% if  form.drive_license_num.value  %}{{ form.drive_license_num.value }}{% endif %}">
+                        {% if form.drive_license_num.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.drive_license_num.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_username">Имя пользователя</label>
+                        <input type="text" class="form-control" placeholder="Введите имя пользователя" id="id_username" name="username" value="{{ form.username.value }}">
+                        {% if form.username.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.username.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_email">Email</label>
+                        <input type="email" class="form-control" placeholder="Введите ваш Email" id="id_email" name="email" value="{{ form.email.value }}">
+                        {% if form.email.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="id_image">Аватар</label>
+                        <input type="file" class="form-control" id="id_image" name="image">
+                        {% if form.image.errors %}
+                        <div class="alert alert-danger mt-2">{{ form.image.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+                <button id="edit_button" class="btn btn-secondary mt-3" onclick="toggleEditMode()">Изменить</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="booking-card card shadow-sm p-4 mb-4 bg-white rounded">
+                <h3>История забронированных автомобилей</h3>
+                <div class="booking-history">
+                    {% for booking in user.bookings.all %}
+                        <div class="booking-item p-3 mb-3 bg-light rounded">
+                            <p><strong>Модель:</strong> {{ booking.car_model }}</p>
+                            <p><strong>Дата бронирования:</strong> {{ booking.date }}</p>
+                            <p><strong>Состояние:</strong> {{ booking.status }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleEditMode() {
+    var form = document.getElementById('edit_form');
+    var displayElements = document.getElementById('profile_display');
+    var editButton = document.getElementById('edit_button');
+
+    if (form.style.display === 'none') {
+        form.style.display = 'block';
+        displayElements.style.display = 'none';
+        editButton.textContent = 'Отмена';
+    } else {
+        form.style.display = 'none';
+        displayElements.style.display = 'block';
+        editButton.textContent = 'Изменить';
+    }
+}
+</script>
+{% endblock %}

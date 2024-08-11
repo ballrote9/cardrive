@@ -1,0 +1,222 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 0;
+    text-align: center;
+    position: fixed; /* Фиксированное позиционирование */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Обеспечивает, что шапка будет сверху */
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+
+header nav ul li .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    top: 100%; /* Помещаем меню под кнопкой */
+    left: 0;
+    z-index: 1001; /* Обеспечивает, что меню будет сверху */
+}
+
+header nav ul li .dropdown-content li {
+    display: block;
+    margin: 0;
+}
+
+header nav ul li .dropdown-content li a {
+    display: block;
+    padding: 10px;
+    color: #fff;
+    text-decoration: none;
+}
+
+header nav ul li .dropdown-content li a:hover {
+    background-color: #555;
+}
+
+header nav ul li .show {
+    display: block;
+}
+
+
+main {
+    grid-row: 2;
+    padding: 20px;
+    margin-top: 80px; /* Добавьте отступ, чтобы избежать перекрытия шапкой */
+    margin-bottom: 40px;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Обеспечивает, что футер будет сверху */
+}
+
+.car-catalog {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.car-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    height: 300px; /* Установите фиксированную высоту карточки */
+    position: relative; /* Обеспечивает правильное размещение текста поверх изображения */
+}
+
+.car-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.car-item img {
+    width: 100%;
+    height: 230px; /* Сохраняет соотношение сторон изображения */
+    object-fit: cover; /* Заполняет карточку и обрезает изображение, если нужно */
+}
+
+.car-info {
+    padding: 15px;
+    background: #fff; /* Добавьте фон, чтобы текст был видимым */
+    position: absolute; /* Помещает текст поверх изображения */
+    bottom: 0; /* Устанавливает текст у нижней части карточки */
+    left: 0;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1; /* Обеспечивает, что текст будет поверх изображения */
+}
+
+.car-info h3 {
+    font-size: 1.2em;
+    margin: 0;
+    color: #333;
+}
+
+.car-info p {
+    font-size: 1em;
+    margin: 5px 0 0;
+    color: #666;
+}
+
+
+/* Модальное окно (фон) */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+    padding-top: 60px;
+}
+
+/* Модальное окно (контент) */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+/* Кнопка закрытия модального окна */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Панель фильтров (фон) */
+
+.filter-panel {
+    margin-top: 120px;
+    display: none;
+    position :unset;
+    top: 150;
+    left: 50;
+    width: 100%;
+    height: auto; 
+    background-color: #fefefe;
+    border-bottom: 1px solid #888;
+    overflow: hidden; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    max-height: 0;
+    transition: max-height 0.5s ease-out;
+}
+
+/* Содержимое панели фильтров */
+.filter-panel form {
+    padding: 20px;
+}
+
+/* Кнопка закрытия панели фильтров */
+.close-filter-panel {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+
+
+
+.close-filter-panel:hover,
+.close-filter-panel:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

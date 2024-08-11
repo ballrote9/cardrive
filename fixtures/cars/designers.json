@@ -1,0 +1,58 @@
+[
+    {
+        "model": "cars.designers",
+        "pk": 1,
+        "fields": {
+            "designer_name": "Audi"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 2,
+        "fields": {
+            "designer_name": "Toyota"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 3,
+        "fields": {
+            "designer_name": "Ford"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 4,
+        "fields": {
+            "designer_name": "BMW"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 5,
+        "fields": {
+            "designer_name": "Mercedes-Benz"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 6,
+        "fields": {
+            "designer_name": "Hyundai"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 7,
+        "fields": {
+            "designer_name": "Kia"
+        }
+    },
+    {
+        "model": "cars.designers",
+        "pk": 8,
+        "fields": {
+            "designer_name": "Jaguar"
+        }
+    }
+]
