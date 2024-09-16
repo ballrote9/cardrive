@@ -19,7 +19,13 @@ class UserRegistrationForm(UserCreationForm):
     password2 = forms.CharField()
     class Meta:
         model = Users
-        fields = ["first_name","last_name","middle_name","username","email","password1","password2",
+        fields = ["first_name",
+                  "last_name",
+                  "middle_name",
+                  "username",
+                  "email",
+                  "password1",
+                  "password2",
         ]
 
 

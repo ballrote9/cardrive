@@ -11,7 +11,7 @@
         <div class="col-md-6">
             <div class="profile-card card shadow-sm p-4 mb-4 bg-white rounded">
                 <div class="profile-header d-flex align-items-center mb-3">
-                    <img src={% if user.image %}"{{ user.image.url }}"{% else %}"{% static "images/not-found.jpg" %}"{% endif %} alt="{{ user.username }}" class="profile-avatar rounded-circle me-3">
+                    <img src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'images/not-found.jpg' %}{% endif %}" alt="{{ user.username }}" class="profile-avatar rounded-circle me-3">
                     <div>
                         <h2 class="mb-0">{{ user.first_name }} {{ user.last_name }}</h2>
                         <a href="{% url 'main:index' %}" class="back-button text-decoration-none">
@@ -51,7 +51,7 @@
                     <div class="form-group mb-3">
                         <label for="id_middle_name">Отчество</label>
                         <input type="text" class="form-control" placeholder="Введите ваше отчество" id="id_middle_name" name="middle_name" 
-                        value="{% if  form.middle_name.value  %}"{{ form.middle_name.value }}"{% endif %}">
+                        value="{% if  form.middle_name.value  %}{{ form.middle_name.value }}{% endif %}">
                         {% if form.middle_name.errors %}
                         <div class="alert alert-danger mt-2">{{ form.middle_name.errors }}</div>
                         {% endif %}
@@ -104,15 +104,14 @@
                 <button id="edit_button" class="btn btn-secondary mt-3" onclick="toggleEditMode()">Изменить</button>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="booking-history-wrapper">
             <div class="booking-card card shadow-sm p-4 mb-4 bg-white rounded">
                 <h3>История забронированных автомобилей</h3>
                 <div class="booking-history">
-                    {% for booking in user.bookings.all %}
+                    {% for booking in booked_cars %}
                         <div class="booking-item p-3 mb-3 bg-light rounded">
-                            <p><strong>Модель:</strong> {{ booking.car_model }}</p>
-                            <p><strong>Дата бронирования:</strong> {{ booking.date }}</p>
-                            <p><strong>Состояние:</strong> {{ booking.status }}</p>
+                            <p><strong>Модель:</strong> {{ booking.car.designer }} {{ booking.car.model }}</p>
+                            <p><strong>Дата бронирования:</strong> {{ booking.busy_start }} - {{ booking.busy_end }}</p>
                         </div>
                     {% endfor %}
                 </div>

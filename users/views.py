@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from cars.models import BusyCars
 from users.forms import UserLoginForm, UserRegistrationForm, ProfileForm
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
@@ -52,7 +53,12 @@ def profile(request):
         
     else:
         form = ProfileForm(instance=request.user)
-    return render(request, 'users/profile.html', {'form': form})
+    booked_cars = BusyCars.objects.filter(renting_person = request.user)
+    context = {
+        'form':form,
+        'booked_cars' : booked_cars,
+    }
+    return render(request, 'users/profile.html', context = context)
 
 
 def logout(request):

@@ -1,40 +1,49 @@
-/* Стили для кнопок */
-.ui-datepicker-unselectable .ui-state-disabled {
-    background-color: #FF9999; /* Красный цвет для занятых дат */
-    pointer-events: none;
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
-.booking-section {
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.booking-section, .order-summary {
     border: 1px solid #ddd;
     padding: 15px;
     border-radius: 8px;
-    margin-bottom: 20px;
     background-color: #f9f9f9;
+    box-sizing: border-box;
+    flex: 1;
+    max-width: 400px;
 }
-.booking-section h3 {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
+
 .form-group {
     display: flex;
     flex-direction: column;
 }
 
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    color: #fff;
-    background-color: #007BFF;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    margin-right: 10px;
 }
 
-.button:hover {
-    background-color: #0056b3;
+
+.button-secondary {
+    background-color: #6c757d;
 }
 
-/* Стили для формы */
+.button-secondary:hover {
+    background-color: #5a6268;
+}
+
 form {
     display: flex;
     flex-direction: column;
@@ -47,4 +56,9 @@ form label {
 form input, form select, form button {
     padding: 10px;
     margin-bottom: 15px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: flex-start;
 }

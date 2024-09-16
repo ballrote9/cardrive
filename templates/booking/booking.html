@@ -8,83 +8,8 @@
 {% block style %}
     <link rel="stylesheet" href="{% static "booking/style.css" %}">
     <link rel="stylesheet" href="{% static "base_styles.css" %}">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            gap: 20px;
-        }
-
-        .booking-section, .order-summary {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-            background-color: #f9f9f9;
-            box-sizing: border-box;
-            flex: 1;
-            max-width: 400px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            color: #fff;
-            background-color: #007BFF;
-            text-decoration: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            margin-right: 10px;
-        }
-
-        .button:hover {
-            background-color: #0056b3;
-        }
-
-        .button-secondary {
-            background-color: #6c757d;
-        }
-
-        .button-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        form label {
-            margin: 10px 0 5px;
-        }
-
-        form input, form select, form button {
-            padding: 10px;
-            margin-bottom: 15px;
-        }
-
-        .button-container {
-            display: flex;
-            justify-content: flex-start;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static "users/bootstrap.min.css"%}">
+    <link rel="stylesheet" href="{% static "flatpickr.css"%}">
 {% endblock style %}
 
 {% block h1_title %}
@@ -97,65 +22,21 @@
         <h3>Информация о пользователе</h3>
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
+            {% if user.is_authenticated %}
             <div class="form-group">
-                <label for="id_first_name">Имя</label>
-                <input type="text" class="form-control" placeholder="Введите ваше имя" id="id_first_name" name="first_name" value="{{ user_form.first_name.value }}">
-                {% if user_form.first_name.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.first_name.errors }}</div>
-                {% endif %}
+                <p><strong>Фамилия:</strong> {{ user.last_name }}{% if form.last_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Имя:</strong> {{ user.first_name }}{% if form.first_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Отчество*:</strong>{% if user.middle_name %}{{ user.middle_name }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.middle_name.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Серия и номер паспорта:</strong> {% if user.passport_num %}{{ user.passport_num }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.passport_num.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Серия и номер водительского удостоверения:</strong> {% if user.drive_license_num %}{{ user.drive_license_num }}{% else %}<span class="placeholder-text">введите данные{% endif %}{% if form.drive_license_num.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Имя пользователя:</strong> {{ user.username }}{% if form.username.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
+                <p><strong>Email:</strong> {{ user.email }}{% if form.email.errors %} <span class="text-danger">Изменения не применены</span>{% endif %}</p>
             </div>
-
+            {% else %}
             <div class="form-group">
-                <label for="id_last_name">Фамилия</label>
-                <input type="text" class="form-control" placeholder="Введите вашу фамилию" id="id_last_name" name="last_name" value="{{ user_form.last_name.value }}">
-                {% if user_form.last_name.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.last_name.errors }}</div>
-                {% endif %}
+                <p><strong>Авторизуйтесь, пожалуйста!</strong></p>
             </div>
-
-            <div class="form-group">
-                <label for="id_middle_name">Отчество</label>
-                <input type="text" class="form-control" placeholder="Введите ваше отчество" id="id_middle_name" name="middle_name" value="{% if user_form.middle_name.value %}{{ user_form.middle_name.value }}{% endif %}">
-                {% if user_form.middle_name.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.middle_name.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label for="id_passport_num">Серия и номер паспорта</label>
-                <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_passport_num" name="passport_num" value="{% if user_form.passport_num.value %}{{ user_form.passport_num.value }}{% endif %}">
-                {% if user_form.passport_num.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.passport_num.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label for="id_drive_license_num">Серия и номер водительского удостоверения</label>
-                <input type="text" class="form-control" placeholder="Введите ваши данные" id="id_drive_license_num" name="drive_license_num" value="{% if user_form.drive_license_num.value %}{{ user_form.drive_license_num.value }}{% endif %}">
-                {% if user_form.drive_license_num.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.drive_license_num.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label for="id_username">Имя пользователя</label>
-                <input type="text" class="form-control" placeholder="Введите имя пользователя" id="id_username" name="username" value="{{ user_form.username.value }}">
-                {% if user_form.username.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.username.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="form-group">
-                <label for="id_email">Email</label>
-                <input type="email" class="form-control" placeholder="Введите ваш Email" id="id_email" name="email" value="{{ user_form.email.value }}">
-                {% if user_form.email.errors %}
-                <div class="alert alert-danger mt-2">{{ user_form.email.errors }}</div>
-                {% endif %}
-            </div>
-            <div class="button-container">
-                <button type="submit" class="btn btn-primary">Сохранить информацию</button>
-                <a href="{% url 'cars:index' %}" class="btn button button-secondary">Отменить</a>
-            </div>
+            {% endif %}
         </form>
     </div>
 
@@ -165,14 +46,11 @@
             {% csrf_token %}
             <div class="form-group mb-3">
                 <p><strong>Автомобиль:</strong> <a href="{% url 'cars:model_car' car.slug%}">{{ car.slug }}</a></p>
-                {% if booking_form.car.errors %}
-                <div class="alert alert-danger mt-2">{{ booking_form.car.errors }}</div>
-                {% endif %}
             </div>
 
             <div class="form-group mb-3">
                 <label for="id_busy_start">Дата начала бронирования</label>
-                <input type="text" class="form-control" placeholder="Выберите дату начала" id="id_busy_start" name="busy_start" value="{% if booking_form.busy_start.value %}{{ booking_form.busy_start.value }}{% endif %}">
+                <input type="date" class="form-control" placeholder="Выберите дату начала" id="id_busy_start" name="busy_start" value="{% if booking_form.busy_start.value %}{{ booking_form.busy_start.value }}{% endif %}">
                 {% if booking_form.busy_start.errors %}
                 <div class="alert alert-danger mt-2">{{ booking_form.busy_start.errors }}</div>
                 {% endif %}
@@ -180,56 +58,143 @@
 
             <div class="form-group mb-3">
                 <label for="id_busy_end">Дата окончания бронирования</label>
-                <input type="text" class="form-control" placeholder="Выберите дату окончания" id="id_busy_end" name="busy_end" value="{% if booking_form.busy_end.value %}{{ booking_form.busy_end.value }}{% endif %}">
+                <input type="date" class="form-control" placeholder="Выберите дату окончания" id="id_busy_end" name="busy_end" value="{% if booking_form.busy_end.value %}{{ booking_form.busy_end.value }}{% endif %}">
                 {% if booking_form.busy_end.errors %}
                 <div class="alert alert-danger mt-2">{{ booking_form.busy_end.errors }}</div>
                 {% endif %}
             </div>
 
             <div class="button-container">
-                <button type="submit" class="btn btn-primary">Забронировать</button>
-                <button type="submit" class="btn btn-primary">Отменить</button>
+                <button type="submit" class ="button">Забронировать</button>
+                <button type="button"  name = "b" onclick="window.location.href='{% url 'cars:index' %}'">Отменить</button>
             </div>
+            {% if messages %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                    {% for message in messages %}
+                        <p>{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </form>
     </div>
 
     <div class="order-summary">
         <h3>Информация о заказе</h3>
-        <p><strong>Автомобиль:</strong> {{ car.name }}</p>
+        <p><strong>Автомобиль:</strong> {{ car.designer }} {{ car.model }}</p>
         <p><strong>Количество дней аренды:</strong> <span id="rental-days">0</span> дней</p>
         <p><strong>Стоимость аренды:</strong> <span id="rental-cost">0</span> руб.</p>
-        <p><strong>Адрес получения:</strong> {{ car.pickup_address }}</p>
+        <p><strong>Адрес получения:</strong>Улица пушкина, д. 28а</p>
     </div>
 </div>
 {% endblock content %}
 
 {% block scripts %}
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            var bookedDates = {{ booked_dates_json|safe }};
-            var rentalCostPerDay = {{ car.rental_cost_per_day }};
-
-            function disableBookedDates(date) {
-                var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
-                return [bookedDates.indexOf(string) === -1];
-            }
-
-            $("#id_busy_start, #id_busy_end").datepicker({
-                beforeShowDay: disableBookedDates,
-                dateFormat: 'yy-mm-dd',
-                onSelect: function() {
-                    var startDate = $("#id_busy_start").datepicker("getDate");
-                    var endDate = $("#id_busy_end").datepicker("getDate");
-                    if (startDate && endDate) {
-                        var timeDiff = Math.abs(endDate.getTime() - startDate.getTime());
-                        var diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                        $("#rental-days").text(diffDays);
-                        $("#rental-cost").text(diffDays * rentalCostPerDay);
-                    }
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const startDateInput = document.getElementById('id_busy_start');
+        const endDateInput = document.getElementById('id_busy_end');
+        const rentalDaysElement = document.getElementById('rental-days');
+        const rentalCostElement = document.getElementById('rental-cost');
+        
+        // Стоимость аренды за день
+        const dailyRate = Number({{car.price}}) ;  // Предполагаем, что car.price — это цена за день
+    
+        // Функция для расчета количества дней аренды и обновления стоимости
+        function calculateRentalInfo() {
+            console.log("Функция calculateRentalInfo запущена"); // Отладочный лог
+    
+            const startDateValue = startDateInput.value;
+            const endDateValue = endDateInput.value;
+    
+            console.log("Выбрана дата начала:", startDateValue); // Лог для проверки значений
+            console.log("Выбрана дата окончания:", endDateValue); // Лог для проверки значений
+    
+            // Проверка, что оба поля даты заполнены
+            if (startDateValue && endDateValue) {
+                const startDate = new Date(startDateValue);
+                const endDate = new Date(endDateValue);
+    
+                console.log("Начальная дата:", startDate); // Лог даты
+                console.log("Конечная дата:", endDate); // Лог даты
+    
+                // Проверяем, что дата окончания больше или равна дате начала
+                if (endDate >= startDate) {
+                    // Рассчитываем количество дней
+                    const timeDiff = Math.abs(endDate - startDate);
+                    const diffDays = Math.ceil(timeDiff / (1000 * 60 * 60 * 24)) || 1; // Минимум 1 день
+    
+                    console.log("Количество дней аренды:", diffDays); // Лог для проверки дней
+    
+                    // Обновляем количество дней на странице
+                    rentalDaysElement.textContent = diffDays;
+    
+                    // Рассчитываем общую стоимость аренды
+                    const totalCost = diffDays * dailyRate;
+    
+                    console.log("Общая стоимость аренды:", totalCost); // Лог для проверки стоимости
+    
+                    // Обновляем стоимость аренды на странице
+                    rentalCostElement.textContent = totalCost.toLocaleString();
+                } else {
+                    alert("Дата окончания должна быть больше или равна дате начала.");
+                    resetRentalInfo();
                 }
-            });
+            } else {
+                console.log("Даты не выбраны корректно"); // Лог для отладки
+                resetRentalInfo();
+            }
+        }
+    
+        // Сброс информации о заказе
+        function resetRentalInfo() {
+            rentalDaysElement.textContent = '0';
+            rentalCostElement.textContent = '0';
+        }
+    
+        // Добавляем обработчики событий на изменение дат
+        startDateInput.addEventListener('change', calculateRentalInfo);
+        endDateInput.addEventListener('change', calculateRentalInfo);
+    }); 
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const busyIntervals = {{ busy_intervals|safe }};  // Передаем занятые даты в формате JSON
+    
+        // Функция для преобразования даты из формата 'dd-mm-yyyy' в объект Date
+        function parseDate(dateString) {
+            const [day, month, year] = dateString.split('-').map(Number);
+            return new Date(year, month - 1, day);
+        }
+    
+        // Преобразуем занятые интервалы в массив блокируемых дат
+        const disabledDates = busyIntervals.map(interval => {
+            const start = parseDate(interval.start);
+            const end = parseDate(interval.end);
+    
+            let dates = [];
+            for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+                dates.push(new Date(d));
+            }
+            return dates;
+        }).flat();  // Преобразуем интервалы в массив дат
+    
+        // Инициализация Flatpickr для поля даты начала
+        flatpickr("#id_busy_start", {
+            minDate: "today",  // Минимальная дата — сегодня
+            disable: disabledDates,  // Блокируем занятые даты
+            dateFormat: "Y-m-d",  // Формат даты
         });
-    </script>
+    
+        // Инициализация Flatpickr для поля даты окончания
+        flatpickr("#id_busy_end", {
+            minDate: "today",
+            disable: disabledDates,
+            dateFormat: "Y-m-d",
+        });
+    });
+    
+</script>
+<script src={% static "scripts.js" %}></script>
+<script src="{% static "flatpickr.js"%}"></script>
 {% endblock scripts %}
